@@ -1,19 +1,19 @@
 from math import dist, sin, cos, tan, sqrt, pi
-from random import normalvariate, random
+from random import gauss, random
 from numpy import dot, array, cross, maximum, minimum
 
 FOV = 90 * pi/180
-MAXBOUNCES = 5
+MAXBOUNCES = 10
 FLEN = tan(FOV/2)*500
 PLANEZ = 10-4
-RAYSPERPIXEL = 1
+RAYSPERPIXEL = 10
 
 vector = array
 
 class camera():
     def __init__(self):
-        self.pos = vector((0, 0, -10))
-        self.dir = vector((0, 0, 0))
+        self.pos = vector((0, 3, -10))
+        self.dir = vector((-0.3, 0, 0))
 cam = camera()
 
 class ray():
@@ -67,25 +67,24 @@ def prot(x, y, z, ax, ay, az):
     ))
 
 def hitsphere(r, center, radius):
-    # dst = -pos * dir +- sqrt((pos*dir)^2 + (pos*pos-r^2))
-    # -||sD||^2 +- sqrt(||sD||^4 - 4*||D||^2*(||O||^2-r^2))
-    # / (2||D||^2)
+    # dst = -pos.dir - sqrt((pos.dir)^2 - (pos.pos-r^2))
+    # = ( -2(O.D) - sqrt(4(O.D)^2 - 4(D.D)(O.O-r^2)) )
+    #   / (2(D.D))
     offsetraypos = r.pos - center
 
-    a = 1#dot(r.dir, r.dir)
-    b = 2 * dot(offsetraypos, r.dir)
+    b = dot(offsetraypos, r.dir)
     c = dot(offsetraypos, offsetraypos) - radius*radius
 
-    disc = b*b - 4*a*c
+    disc = b*b - c
     if disc >= 0:
-        dst = (-b - sqrt(disc)) / (2 * a)
+        dst = (-b - sqrt(disc))
         if dst >= 0:
             hitpos = r.pos + r.dir * dst
             return (
                 True,
                 dst,
                 hitpos,
-                normalize(hitpos - center)
+                (hitpos - center) / radius#normalize(hitpos - center)
             )
     return (False, 0, 0, 0)
 
@@ -145,7 +144,7 @@ def bbt(tri): # get bounding box of triangle
 
 def randdir():
     return normalize(
-        vector(tuple(normalvariate() for i in range(3)))
+        vector(tuple(gauss() for i in range(3)))
     )
 
 def randcirclept(radius):
