@@ -1,5 +1,5 @@
 import sys
-from rtools import ray, cam2world0, cam2world, normalize, trace, vector, randcirclept, RAYSPERPIXEL, colorclamp
+from rtools import ray, cam2world0, cam2world, normalize, trace, vector, randcirclept, RAYSPERPIXEL, colorclamp, pi, sqrt
 from random import seed, shuffle
 from itertools import product
 from numpy import array, zeros
@@ -15,7 +15,7 @@ def frag(i, j):
         djitter = randcirclept(0) # defocus jitter
         r.pos = cam2world0(*djitter)
 
-        jitter = randcirclept(1) # regular jitter
+        jitter = randcirclept(px / sqrt(pi)) # regular jitter
         viewpoint = cam2world(i - 250 + jitter[0], 250 - j + jitter[1])
         r.dir = normalize(viewpoint - r.pos)
 

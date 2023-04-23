@@ -254,7 +254,7 @@ shapes = (
     #triangle(vector((-4, 4, 6)), vector((4, 4, 6)), vector((4, -4, 6)), material(vector((255, 255, 255)))),
 
     #front
-    triangle(vector((-4, 4, -4)), vector((-4, -4, -4)), vector((4, -4, -4)), material(vector((255, 255, 255)))),
+    #triangle(vector((-4, 4, -4)), vector((-4, -4, -4)), vector((4, -4, -4)), material(vector((255, 255, 255)))),
     #triangle(vector((4, -4, -4)), vector((4, 4, -4)), vector((-4, 4, -4)), material(vector((255, 255, 255)))),
 
     #interior
