@@ -6,7 +6,7 @@ FOV = 90 * pi/180
 MAXBOUNCES = 10
 FLEN = tan(FOV/2)*500
 PLANEZ = 10-4
-RAYSPERPIXEL = 10
+RAYSPERPIXEL = 1
 
 vector = array
 
@@ -203,7 +203,6 @@ def envlight(r):
     return lerp((vector((100,100,100))/255)**2.2, skygrad, gtst) + sun * sunmask
 
 def lerp(start, end, t):
-    t = min(max(0, t), 1)
     return start*(1-t) + end*t
 
 def smoothstep(start, end, t):
@@ -214,7 +213,7 @@ def colorclamp(color):
     if not any(color > 255): return tuple(round(i) for i in color)
     return tuple(min(round(i), 255) for i in color)
 
-'''
+#'''
 shapes = (
     sphere(vector((-2, 1, -6)), 1, material(vector((255, 255, 255)))),
     sphere(vector((0, 1, -4)), 1, material(vector((0, 100, 140)), smoothness=0.5, specprob=0.5)),
@@ -228,9 +227,9 @@ shapes = (
     triangle(vector((-8, 0, -8)), vector((-8, 0, 8)), vector((8, 0, -8)), material(vector((255, 100, 255)))),
     #triangle(vector((8, 0, -8)), vector((-8, 0, 8)), vector((8, 0, 8)), material(vector((100, 255, 100)))),
 )
-'''
-
 #'''
+
+'''
 shapes = (
     #floor
     triangle(vector((-4, -4, -4)), vector((-4, -4, 6)), vector((4, -4, -4)), material(vector((0, 128, 255)))),
@@ -261,4 +260,4 @@ shapes = (
     sphere(vector((-2, -2, -1)), 2, material(vector((255, 128, 0)))),
     sphere(vector((2, -2, 3)), 2, material(vector((255, 255, 255)), smoothness=1, specprob=1)),
 )
-#'''
+'''
